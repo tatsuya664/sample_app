@@ -1,31 +1,30 @@
-# チュートリアルと同じ Ruby バージョン
+# Rubyの公式イメージをベースにする
 FROM ruby:3.2.8
 
-# Node.js と Yarn と PostgreSQL クライアントをインストール
+# 必要なシステムツール（ビルドツール、DBクライアント、Node.jsのインストーラー`curl`）をインストール
+RUN apt-get update -qq && apt-get install -y \
+  build-essential \
+  postgresql-client \
+  curl \
+  && rm -rf /var/lib/apt/lists/*
+
+# Node.js 18.x を、NodeSourceの公式リポジトリからインストールする
+# これにより、古くて問題のあるOS標準のnodejsではなく、最新で完全なnodejsがインストールされる
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-  && apt-get update -qq \
-  && apt-get install -y nodejs yarn postgresql-client
+ && apt-get install -y nodejs
 
-# logger を明示的にインストール（Rails7+Ruby3.2で必須）
-RUN gem install logger
-
-# rails コマンドが logger を必ず require するように環境変数を設定
-ENV RUBYOPT="--disable-gems -rlogger"
+# Node.jsに含まれる`corepack`を使って、`yarn`を有効化する
+RUN corepack enable
 
 # 作業ディレクトリを設定
 WORKDIR /app
 
-# ホスト側の Gemfile をコピー
+# Gemfileを先にコピーして、Gemのインストールをキャッシュする
 COPY Gemfile Gemfile.lock ./
-
-# bundler で gem をインストール
 RUN bundle install
 
-# アプリケーションのソースをコピー
+# アプリケーションのソースコード全体をコピー
 COPY . .
 
-# 3000番ポートを開放
-EXPOSE 3000
-
-# デフォルトのコマンド
-CMD ["rails", "server", "-b", "0.0.0.0"]
+# RailsサーバーとCSS/JSビルダーを同時に起動する開発用コマンド
+CMD ["bin/dev"]

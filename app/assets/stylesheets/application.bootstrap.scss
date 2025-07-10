@@ -1,0 +1,11 @@
+// 1. 最初に、Bootstrapの機能と変数（$gray-lightなど）を準備する
+//    【重要】正しいパス "bootstrap/scss/..." を指定
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+// 2. 次に、準備された変数を使って、あなたのカスタムスタイルを適用する
+@import "custom";
+
+// 3. 最後に、Bootstrapの残りの部分とアイコンを全て読み込む
+@import "bootstrap/scss/bootstrap";
+@import 'bootstrap-icons/font/bootstrap-icons';

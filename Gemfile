@@ -68,5 +68,13 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem "rails-controller-testing"
 
 end
+
+#5章で追加
+# Use Bootstrap
+gem 'bootstrap', '~> 5.3.3'
+gem "cssbundling-rails", "~> 1.4"
+# 複数のプロセスを管理するためにforemanを追加
+gem 'foreman'
