@@ -34,6 +34,7 @@ h1 {
   letter-spacing: -2px;
   margin-bottom: 30px;
   text-align: center;
+  margin-top: 60px !important;;
 }
 
 h2 {
@@ -92,4 +93,36 @@ footer {
       margin-left: 15px;
     }
   }
+}
+
+/* 7章で追加するスタイル */
+
+/* エラーメッセージ */
+#error_explanation {
+  color: red;
+  ul {
+    color: red;
+    margin: 0 0 30px 0;
+  }
+}
+
+.field_with_errors {
+  .form-control {
+    border-color: red;
+  }
+}
+
+/* Gravatar (アバター画像) */
+.gravatar {
+  float: left;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+/* デバッグ情報 */
+.debug_dump {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
 }

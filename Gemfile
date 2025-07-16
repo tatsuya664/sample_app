@@ -78,3 +78,5 @@ gem 'bootstrap', '~> 5.3.3'
 gem "cssbundling-rails", "~> 1.4"
 # 複数のプロセスを管理するためにforemanを追加
 gem 'foreman'
+#6章で追加
+gem 'bcrypt', '~> 3.1.7'
