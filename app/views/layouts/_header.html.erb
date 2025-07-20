@@ -3,9 +3,27 @@
     <%= link_to "sample app", root_path, id: "logo", class: "navbar-brand" %>
     <nav>
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><%= link_to "Home",    root_path, class: "nav-link" %></li>
-        <li class="nav-item"><%= link_to "Help",    help_path, class: "nav-link" %></li>
-        <li class="nav-item"><%= link_to "Sign up", signup_path, class: "nav-link" %></li>
+        <li class="nav-item"><%= link_to "Home", root_path, class: "nav-link" %></li>
+        <li class="nav-item"><%= link_to "Help", help_path, class: "nav-link" %></li>
+
+        <% if logged_in? %>
+          <li class="nav-item"><%= link_to "Users", users_path, class: "nav-link" %></li>
+          <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+              Account
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><%= link_to "Profile", current_user, class: "dropdown-item" %></li>
+              <li><a class="dropdown-item" href="#">Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <%= link_to "Log out", logout_path, data: { "turbo-method": :delete }, class: "dropdown-item" %>
+              </li>
+            </ul>
+          </li>
+        <% else %>
+          <li class="nav-item"><%= link_to "Log in", login_path, class: "nav-link" %></li>
+        <% end %>
       </ul>
     </nav>
   </div>

@@ -126,3 +126,29 @@ footer {
   width: 100%;
   margin-top: 45px;
 }
+
+/* ↓↓↓ 8章で追加するスタイル ↓↓↓ */
+/* ドロップダウンメニュー */
+.dropdown-toggle::after {
+  display: none;
+}
+
+.dropdown-menu {
+  background-color: #343a40;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.dropdown-item {
+  color: #f8f9fa;
+}
+
+.dropdown-item:hover {
+  background-color: #495057;
+  color: #ffffff;
+}
+
+.divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  margin: .5rem 0;
+}
+/* ↑↑↑ 8章で追加するスタイル ↑↑↑ */
