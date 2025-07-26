@@ -51,6 +51,8 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  #10章で追加
+  gem "faker"
 end
 
 group :development do
@@ -76,6 +78,7 @@ end
 # Use Bootstrap
 gem 'bootstrap', '~> 5.3.3'
 gem "cssbundling-rails", "~> 1.4"
+gem 'pagy', '~> 6.0' #10章で追加
 # 複数のプロセスを管理するためにforemanを追加
 gem 'foreman'
 #6章で追加

@@ -95,6 +95,8 @@ GEM
       reline (>= 0.3.8)
     erb (5.0.1)
     erubi (1.13.1)
+    faker (3.5.2)
+      i18n (>= 1.8.11, < 2)
     foreman (0.88.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
@@ -139,6 +141,7 @@ GEM
     nio4r (2.7.4)
     nokogiri (1.18.8-x86_64-linux-gnu)
       racc (~> 1.4)
+    pagy (6.5.0)
     pg (1.5.9)
     popper_js (2.11.8)
     pp (0.6.2)
@@ -243,9 +246,11 @@ DEPENDENCIES
   capybara
   cssbundling-rails (~> 1.4)
   debug
+  faker
   foreman
   importmap-rails
   jbuilder
+  pagy (~> 6.0)
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.8, >= 7.0.8.7)

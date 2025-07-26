@@ -1,0 +1,15 @@
+<% provide(:title, "All users") %>
+<h1>All users</h1>
+
+<div class="pagination-container d-flex justify-content-center">
+  <%== pagy_bootstrap_nav(@pagy) %>
+</div>
+
+<%# .users反映されない問題への最終対策としてstyleを追加 %>
+<ul class="users" style="list-style: none; padding: 0;">
+  <%= render @users %>
+</ul>
+
+<div class="pagination-container d-flex justify-content-center">
+  <%== pagy_bootstrap_nav(@pagy) %>
+</div>

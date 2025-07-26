@@ -17,6 +17,12 @@ module SessionsHelper
     end
   end
 
+  #10章で追加
+  # 渡されたユーザーがカレントユーザーであればtrueを返す
+  def current_user?(user)
+    user && user == current_user
+  end
+
   # ユーザーがログインしていればtrue、その他ならfalseを返す
   def logged_in?
    !current_user.nil?
@@ -41,5 +47,16 @@ module SessionsHelper
     user.remember
     cookies.permanent.signed[:user_id] = user.id
     cookies.permanent[:remember_token] = user.remember_token
+  end
+
+  # 記憶したURL（もしくはデフォルト値）にリダイレクト(10章)
+  def redirect_back_or(default)
+    redirect_to(session[:forwarding_url] || default)
+    session.delete(:forwarding_url)
+  end
+
+  # アクセスしようとしたURLを記憶しておく(10章)
+  def store_location
+    session[:forwarding_url] = request.original_url if request.get?
   end
 end
