@@ -5,19 +5,17 @@ class UsersController < ApplicationController
   before_action :admin_user,     only: :destroy
 
   def index
-    @pagy, @users = pagy(User.all)
+    @pagy, @users = pagy(User.where(activated: true)) # 11章の演習: 有効化されたユーザーのみ表示
   end
 
   def new
     @user = User.new
   end
 
-  def index
-    @pagy, @users = pagy(User.all)
-  end
-
   def show
     @user = User.find(params[:id])
+    # 11章の演習: 有効化されていないユーザーは表示させない
+    redirect_to root_url and return unless @user.activated?
   end
 
   def edit
@@ -39,8 +37,10 @@ class UsersController < ApplicationController
     @user = User.new(user_params) # 安全なパラメータを使用
     if @user.save
       # 保存が成功した場合の処理
-      flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user
+      # 11章で変更: メール送信処理を追加し、リダイレクト先とflashメッセージを変更
+      UserMailer.account_activation(@user).deliver_now
+      flash[:info] = "Please check your email to activate your account."
+      redirect_to root_url
     else
       # 保存が失敗した場合の処理
       render 'new', status: :unprocessable_entity

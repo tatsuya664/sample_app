@@ -1,6 +1,22 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+
+  # ADD: Action Mailerの本番環境向け設定
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  host = 'your-production-domain.com' # CHANGE: あなたの本番ドメイン名に書き換える
+  config.action_mailer.default_url_options = { host: host }
+  config.action_mailer.smtp_settings = {
+    port:                 587,
+    address:              'smtp.sendgrid.net',
+    user_name:            'apikey',
+    password:             ENV, # CHANGE: 環境変数を使用
+    domain:               host,
+    authentication:       :plain,
+    enable_starttls_auto: true
+  }
+  
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.

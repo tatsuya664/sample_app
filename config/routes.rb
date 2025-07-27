@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'account_activations/edit'
   get 'sessions/new'
   root 'static_pages#home'
   get  '/help',    to: 'static_pages#help'
@@ -9,6 +10,7 @@ Rails.application.routes.draw do
   post   "/login",   to: "sessions#create"
   delete "/logout",  to: "sessions#destroy"
   resources :users
+  resources :account_activations, only: [:edit] #11章で追加
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

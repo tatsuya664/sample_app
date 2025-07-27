@@ -2,6 +2,11 @@ require "test_helper"
 
 class UsersSignupTest < ActionDispatch::IntegrationTest
 
+  # 11章で追加: メールのdeliveries配列をクリアするsetupメソッド
+  def setup
+    ActionMailer::Base.deliveries.clear
+  end
+
   test "invalid signup information" do
     # 登録ページにアクセスする
     get signup_path
@@ -24,26 +29,31 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     assert_select 'div.alert-danger'
   end
 
-  test "valid signup information" do
-    # 登録ページにアクセスする
-    get signup_path
-    
-    # User.countが1増えることを確認しながら
+  # 11章で変更: テストケースを有効化フローに合わせて全面的に書き換え
+  test "valid signup information with account activation" do
     assert_difference 'User.count', 1 do
-      # 有効な情報をPOSTする
       post users_path, params: { user: { name:  "Example User",
                                          email: "user@example.com",
                                          password:              "password",
                                          password_confirmation: "password" } }
     end
-    
-    # 成功したので、リダイレクト先にちゃんと従う
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    user = assigns(:user)
+    assert_not user.activated?
+    # 有効化していない状態でログインしてみる
+    log_in_as(user)
+    assert_not is_logged_in?
+    # 有効化トークンが不正な場合
+    get edit_account_activation_path("invalid token", email: user.email)
+    assert_not is_logged_in?
+    # トークンは正しいがメールアドレスが無効な場合
+    get edit_account_activation_path(user.activation_token, email: 'wrong')
+    assert_not is_logged_in?
+    # 有効化トークンが正しい場合
+    get edit_account_activation_path(user.activation_token, email: user.email)
+    assert user.reload.activated?
     follow_redirect!
-    # 成功したので、users/showページが表示されることを確認
     assert_template 'users/show'
-    # 成功したので、flashメッセージが表示されていることを確認
-    assert_not flash.empty?
-    # ログイン状態になっていることを確認（第8章で実装）
-    # is_logged_in?
+    assert is_logged_in?
   end
 end
