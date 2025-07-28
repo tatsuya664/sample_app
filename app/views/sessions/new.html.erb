@@ -9,6 +9,7 @@
       <%= f.email_field :email, class: 'form-control' %>
 
       <%= f.label :password %>
+      <%= link_to "(forgot password?)", new_password_reset_path %> <%# 12章で追加 %>
       <%= f.password_field :password, class: 'form-control' %>
 
       <%# 以下のブロックを9章で追加 %>
