@@ -85,4 +85,4 @@ gem 'foreman'
 #6章で追加
 gem 'bcrypt', '~> 3.1.7'
 gem "image_processing", ">= 1.2" #13章で追加
-gem 'active_storage_validations'
+gem 'active_storage_validations' #13章で追加

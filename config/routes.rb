@@ -1,10 +1,4 @@
 Rails.application.routes.draw do
-  get 'password_resets/new'
-  get 'password_resets/create'
-  get 'password_resets/edit'
-  get 'password_resets/update'
-  get 'account_activations/edit'
-  get 'sessions/new'
   root 'static_pages#home'
   get  '/help',    to: 'static_pages#help'
   get  '/about',   to: 'static_pages#about'
@@ -13,10 +7,15 @@ Rails.application.routes.draw do
   get    "/login",   to: "sessions#new"
   post   "/login",   to: "sessions#create"
   delete "/logout",  to: "sessions#destroy"
-  resources :users
+  resources :users do #14章で追加
+    member do
+      get :following, :followers
+    end
+  end
   resources :account_activations, only: [:edit] #11章で追加
   resources :password_resets,     only: [:new, :create, :edit, :update] #12章で追加
   resources :microposts,          only: [:create, :destroy] #13章で追加
+  resources :relationships,       only: [:create, :destroy] #14章で追加
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

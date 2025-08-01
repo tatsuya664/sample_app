@@ -1,12 +1,22 @@
 class User < ApplicationRecord
   has_many :microposts, dependent: :destroy #13章で追加
+  #ここから14章で追加
+  has_many :active_relationships, class_name:  "Relationship",
+                                  foreign_key: "follower_id",
+                                  dependent:   :destroy
+  has_many :passive_relationships, class_name:  "Relationship",
+                                   foreign_key: "followed_id",
+                                   dependent:   :destroy
+  has_many :following, through: :active_relationships, source: :followed
+  has_many :followers, through: :passive_relationships, source: :follower
+  #ここまで14章で追加
 
   attr_accessor :remember_token, :activation_token, :reset_token # 9章で追加,activation_tokenは11章,reset_tokenは12章で追加
   before_save   :downcase_email
   before_create :create_activation_digest # 11章で追加
 
   validates :name,  presence: true, length: { maximum: 50 }
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: true
@@ -71,9 +81,28 @@ class User < ApplicationRecord
     reset_sent_at < 2.hours.ago
   end
 
-  # ユーザーのステータスフィードを返す(13章)
+  # ユーザーのステータスフィードを返す(13章),14章で変更
   def feed
-    Micropost.where("user_id = ?", id)
+    following_ids = "SELECT followed_id FROM relationships
+                     WHERE  follower_id = :user_id"
+    Micropost.where("user_id IN (#{following_ids})
+                     OR user_id = :user_id", user_id: id)
+             .includes(:user, image_attachment: :blob)
+  end
+
+  # ユーザーをフォローする(14章)  
+  def follow(other_user)
+    following << other_user unless self == other_user
+  end
+
+  # ユーザーをフォロー解除する(14章)
+  def unfollow(other_user)
+    following.delete(other_user)
+  end
+
+  # 現在のユーザーが他のユーザーをフォローしていればtrueを返す(14章)
+  def following?(other_user)
+    following.include?(other_user)
   end
 
 

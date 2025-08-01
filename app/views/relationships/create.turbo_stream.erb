@@ -1,0 +1,9 @@
+<%= turbo_stream.replace "follow_form_#{@user.id}" do %>
+  <%= render "users/unfollow", user: @user %>
+<% end %>
+<%= turbo_stream.update "followers" do %>
+  <%= @user.followers.count %>
+<% end %>
+<%= turbo_stream.update "following" do %>
+  <%= current_user.following.count %>
+<% end %>
