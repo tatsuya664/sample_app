@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :users
   resources :account_activations, only: [:edit] #11章で追加
   resources :password_resets,     only: [:new, :create, :edit, :update] #12章で追加
+  resources :microposts,          only: [:create, :destroy] #13章で追加
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

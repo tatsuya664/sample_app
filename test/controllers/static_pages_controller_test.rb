@@ -9,7 +9,7 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
   test "should get root" do
     get root_url
     assert_response :success
-    assert_select "title", "Home | #{@base_title}"
+    assert_select "title", "Ruby on Rails Tutorial Sample App"
   end
 
   # 'static_pages_home_url' は 'root_url' と同じなので削除またはコメントアウト

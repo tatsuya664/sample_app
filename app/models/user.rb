@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :microposts, dependent: :destroy #13章で追加
+
   attr_accessor :remember_token, :activation_token, :reset_token # 9章で追加,activation_tokenは11章,reset_tokenは12章で追加
   before_save   :downcase_email
   before_create :create_activation_digest # 11章で追加
@@ -68,6 +70,12 @@ class User < ApplicationRecord
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
   end
+
+  # ユーザーのステータスフィードを返す(13章)
+  def feed
+    Micropost.where("user_id = ?", id)
+  end
+
 
   #11章で追加
   private

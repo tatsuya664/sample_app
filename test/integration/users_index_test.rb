@@ -10,13 +10,14 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     log_in_as(@admin)
     get users_path
     assert_template 'users/index'
-    assert_select 'nav.pagy-bootstrap-nav', count: 2
-
-    # ★★★ ここからが修正箇所です ★★★
-    # 削除リンクが一意に定まるように、'data-turbo-method'属性もセレクタに含めます
-    assert_select 'a[data-turbo-method="delete"][href=?]', user_path(@non_admin), text: 'delete'
-
-    # ユーザー削除が正しく機能することをテストします
+    assert_select 'div.pagination', count: 2
+    first_page_of_users = User.where(activated: true).paginate(page: 1)
+    first_page_of_users.each do |user|
+      assert_select 'a[href=?]', user_path(user), text: user.name
+      unless user == @admin
+        assert_select 'a[href=?]', user_path(user), text: 'delete'
+      end
+    end
     assert_difference 'User.count', -1 do
       delete user_path(@non_admin)
       assert_response :see_other
@@ -27,7 +28,6 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
   test "index as non-admin" do
     log_in_as(@non_admin)
     get users_path
-    # 'delete'というテキストを持つリンクが存在しないことを確認
-    assert_select 'a[text=?]', 'delete', count: 0
+    assert_select 'a', text: 'delete', count: 0
   end
 end

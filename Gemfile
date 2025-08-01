@@ -78,8 +78,11 @@ end
 # Use Bootstrap
 gem 'bootstrap', '~> 5.3.3'
 gem "cssbundling-rails", "~> 1.4"
-gem 'pagy', '~> 6.0' #10章で追加
+gem 'will_paginate', '~> 3.3.1'
+gem 'bootstrap-will_paginate', '~> 1.0.0' #13章で変更
 # 複数のプロセスを管理するためにforemanを追加
 gem 'foreman'
 #6章で追加
 gem 'bcrypt', '~> 3.1.7'
+gem "image_processing", ">= 1.2" #13章で追加
+gem 'active_storage_validations'
