@@ -1,15 +1,18 @@
+# Dockerfile (最終修正版)
+
 # Rubyの公式イメージをベースにする
 FROM ruby:3.2.8
 
-# 必要なシステムツール（ビルドツール、DBクライアント、Node.jsのインストーラー`curl`）をインストール
+# 必要なシステムツールを一度にインストールする
 RUN apt-get update -qq && apt-get install -y \
   build-essential \
   postgresql-client \
   curl \
+  #  画像リサイズ用のライブラリlibvips-devをここに追加します
+  libvips-dev \
   && rm -rf /var/lib/apt/lists/*
 
 # Node.js 18.x を、NodeSourceの公式リポジトリからインストールする
-# これにより、古くて問題のあるOS標準のnodejsではなく、最新で完全なnodejsがインストールされる
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
  && apt-get install -y nodejs
 

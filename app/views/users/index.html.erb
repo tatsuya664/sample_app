@@ -2,14 +2,14 @@
 <h1>All users</h1>
 
 <div class="pagination-container d-flex justify-content-center">
-  <%= will_paginate %>
+  <%= will_paginate @users, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
 </div>
 
 <%# .users反映されない問題への最終対策としてstyleを追加 %>
-<ul class="users" style="list-style: none; padding: 0;">
+<ul class="users" style="list-style: none; padding: 10px;">
   <%= render @users %>
 </ul>
 
 <div class="pagination-container d-flex justify-content-center">
-  <%= will_paginate %>
+  <%= will_paginate @users, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
 </div>

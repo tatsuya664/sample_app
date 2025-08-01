@@ -1,9 +1,6 @@
 <%= turbo_stream.replace "follow_form_#{@user.id}" do %>
-  <%= render "users/unfollow", user: @user %>
+  <%= render "relationships/unfollow", user: @user %>
 <% end %>
-<%= turbo_stream.update "followers" do %>
-  <%= @user.followers.count %>
-<% end %>
-<%= turbo_stream.update "following" do %>
-  <%= current_user.following.count %>
+<%= turbo_stream.replace "stats_#{@user.id}" do %>
+  <%= render "shared/stats", user: @user %>
 <% end %>

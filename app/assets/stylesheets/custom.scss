@@ -47,6 +47,10 @@ h2 {
   color: $gray-400; // 正しい変数名
 }
 
+h3{
+  margin-top: 10px;
+}
+
 p {
   font-size: 1.1em;
   line-height: 1.7em;
@@ -76,7 +80,7 @@ footer {
   margin-top: 45px;
   padding-top: 5px;
   border-top: 1px solid $gray-medium-light;
-  color: $gray-600; // ★★★ これが最後の修正点です。正しい変数名にしました。 ★★★
+  color: $gray-600; 
   a {
     color: #555;
     &:hover {
@@ -280,4 +284,9 @@ span.image {
   div {
     display: inline-block;
   }
+}
+
+/* フォロー/アンフォローフォームの上に余白を追加 */
+div[id^="follow_form_"] {
+  margin-top: 10px;
 }
