@@ -29,7 +29,7 @@ RUN yarn install
 COPY . .
 
 # アセットのプリコンパイルを実行
-RUN SECRET_KEY_BASE=dummy bundle exec rails assets:precompile
+RUN SECRET_KEY_BASE=dummy DATABASE_URL=dummy bundle exec rails assets:precompile
 
 # Pumaのpidファイルを保存するディレクトリを作成
 RUN mkdir -p tmp/pids
