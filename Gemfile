@@ -86,3 +86,6 @@ gem 'foreman'
 gem 'bcrypt', '~> 3.1.7'
 gem "image_processing", ">= 1.2" #13章で追加
 gem 'active_storage_validations' #13章で追加
+
+# concurrent-ruby 1.3.5の不具合を回避するため、安定バージョンに固定
+gem 'concurrent-ruby', '1.3.4'

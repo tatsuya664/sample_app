@@ -1,0 +1,10 @@
+# .dockerignore
+
+.dockerignore
+Dockerfile
+.git
+.gitignore
+node_modules
+public/assets
+tmp/
+log/

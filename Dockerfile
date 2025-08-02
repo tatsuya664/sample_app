@@ -1,36 +1,30 @@
-# Rubyの公式イメージをベースにする
-FROM ruby:3.2.8
+# ローカル環境のRubyバージョンと一致させます
+FROM ruby:3.2.8-slim-bullseye
 
-# 必要なシステムツールを一度にインストールする
-RUN apt-get update -qq && apt-get install -y \
-  build-essential \
-  postgresql-client \
-  curl \
-  libvips-dev \
-  && rm -rf /var/lib/apt/lists/*
-
-# Node.jsとyarnをインストール
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
- && apt-get install -y nodejs
-RUN corepack enable
+# 必要なライブラリをインストール
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs yarn
 
 # 作業ディレクトリを設定
-WORKDIR /app
+WORKDIR /rails
 
-# Gemfileとpackage.jsonを先にコピーして、ライブラリのインストールをキャッシュする
-COPY Gemfile Gemfile.lock package.json yarn.lock ./
-RUN bundle install
-RUN yarn install
+# Gemfileを先にコピーしてgemのインストールをキャッシュ
+COPY Gemfile Gemfile.lock ./
+RUN bundle install --jobs 4 --retry 3
 
-# アプリケーションのソースコード全体をコピー
+# アプリケーションコードをコピー
 COPY . .
 
-# --- ↓↓↓ ここからが追記・修正箇所です ↓↓↓ ---
-# 本番環境用にアセットをビルドする
-# SECRET_KEY_BASE_DUMMYは、アセットビルド時にキーがなくてもエラーにならないためのおまじない
-RUN SECRET_KEY_BASE_DUMMY=1 yarn build:css
-RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
-# --- ↑↑↑ ここまでが追記・修正箇所です ↑↑↑ ---
+# 本番環境用の設定
+ENV RAILS_ENV=production \
+    RAILS_SERVE_STATIC_FILES=true \
+    RAILS_LOG_TO_STDOUT=true
 
-# サーバーを起動するコマンド
-CMD ["bundle", "exec", "rails", "server"]
+# アセットのプリコンパイルを実行
+# precompile時にmaster.keyがなくてもエラーにならないようにするためのおまじない
+RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
+
+# ポートを開放
+EXPOSE 3000
+
+# コンテナ起動時にWebサーバーを起動
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
