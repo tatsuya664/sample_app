@@ -12,6 +12,10 @@ WORKDIR /rails
 COPY Gemfile Gemfile.lock ./
 RUN bundle install --jobs 4 --retry 3
 
+# package.jsonをコピーして、yarnでJSのパッケージをインストール
+COPY package.json yarn.lock ./
+RUN yarn install
+
 # アプリケーションコードをコピー
 COPY . .
 
