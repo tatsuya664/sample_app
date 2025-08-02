@@ -1,14 +1,20 @@
 # ベースとなるRubyのイメージを指定
 FROM ruby:3.2.8-slim-bullseye
 
-# 必要なライブラリをインストール
-# yarnを削除し、代わりにnpm経由でインストールする
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs libyaml-dev
+# ★★★★★ ここから修正 ★★★★★
+# 必要なライブラリと、Node.js公式インストーラーを追加
+RUN apt-get update -qq && apt-get install -y \
+  build-essential \
+  libpq-dev \
+  libyaml-dev \
+  curl \
+  gnupg \
+  && curl -sL https://deb.nodesource.com/setup_lts.x | bash - \
+  && apt-get install -y nodejs
+# ★★★★★ ここまで修正 ★★★★★
 
-# ★★★★★ ここから追加 ★★★★★
 # npmを使ってyarnをグローバルにインストール
 RUN npm install -g yarn
-# ★★★★★ ここまで追加 ★★★★★
 
 # 作業ディレクトリを設定
 WORKDIR /rails
