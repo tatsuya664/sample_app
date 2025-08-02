@@ -89,3 +89,6 @@ gem 'active_storage_validations' #13章で追加
 
 # concurrent-ruby 1.3.5の不具合を回避するため、安定バージョンに固定
 gem 'concurrent-ruby', '1.3.4'
+
+# assets:precompile時の 'cannot load such file -- sassc'エラーを解決するため追加
+gem "sassc-rails"
