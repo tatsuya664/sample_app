@@ -38,6 +38,9 @@ ENV RAILS_ENV=production \
 # アセットのプリコンパイルを実行
 RUN SECRET_KEY_BASE=dummy bundle exec rails assets:precompile
 
+# Pumaのpidファイルを保存するディレクトリを作成
+RUN mkdir -p tmp/pids
+
 # ポートを開放
 EXPOSE 3000
 
