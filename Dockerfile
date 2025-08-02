@@ -1,5 +1,3 @@
-# Dockerfile (最終修正版)
-
 # Rubyの公式イメージをベースにする
 FROM ruby:3.2.8
 
@@ -11,30 +9,28 @@ RUN apt-get update -qq && apt-get install -y \
   libvips-dev \
   && rm -rf /var/lib/apt/lists/*
 
-# Node.js 18.x を、NodeSourceの公式リポジトリからインストールする
+# Node.jsとyarnをインストール
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
  && apt-get install -y nodejs
-
-# Node.jsに含まれる`corepack`を使って、`yarn`を有効化する
 RUN corepack enable
 
 # 作業ディレクトリを設定
 WORKDIR /app
 
-# Gemfileを先にコピーして、Gemのインストールをキャッシュする
-COPY Gemfile Gemfile.lock ./
+# Gemfileとpackage.jsonを先にコピーして、ライブラリのインストールをキャッシュする
+COPY Gemfile Gemfile.lock package.json yarn.lock ./
 RUN bundle install
-
-# --- ↓↓↓ ここからが追記・修正箇所です ↓↓↓ ---
-# package.jsonとyarn.lockを先にコピーして、yarn installをキャッシュする
-COPY package.json yarn.lock ./
-# yarn installを実行して、sassなどのJSライブラリをインストールする
 RUN yarn install
-# --- ↑↑↑ ここまでが追記・修正箇所です ↑↑↑ ---
 
 # アプリケーションのソースコード全体をコピー
 COPY . .
 
-# RailsサーバーとCSS/JSビルダーを同時に起動する開発用コマンド
-# Renderのスタートコマンドで上書きされるため、本番環境では使われない
-CMD ["bin/dev"]
+# --- ↓↓↓ ここからが追記・修正箇所です ↓↓↓ ---
+# 本番環境用にアセットをビルドする
+# SECRET_KEY_BASE_DUMMYは、アセットビルド時にキーがなくてもエラーにならないためのおまじない
+RUN SECRET_KEY_BASE_DUMMY=1 yarn build:css
+RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
+# --- ↑↑↑ ここまでが追記・修正箇所です ↑↑↑ ---
+
+# サーバーを起動するコマンド
+CMD ["bundle", "exec", "rails", "server"]

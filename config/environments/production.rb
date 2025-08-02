@@ -2,20 +2,20 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
 
-  # ADD: Action Mailerの本番環境向け設定
+  # Action Mailerの本番環境向け設定 (Mailgun ver.)
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
-  host = 'your-production-domain.com' # CHANGE: あなたの本番ドメイン名に書き換える
-  config.action_mailer.default_url_options = { host: host }
+  host = ENV['APP_HOST'] # Renderの環境変数から「アプリのホスト名」を取得
+  config.action_mailer.default_url_options = { host: host, protocol: 'https' }
   config.action_mailer.smtp_settings = {
-    port:                 587,
-    address:              'smtp.sendgrid.net',
-    user_name:            'apikey',
-    password:             ENV, # CHANGE: 環境変数を使用
-    domain:               host,
-    authentication:       :plain,
-    enable_starttls_auto: true
-  }
+  port:                 587,
+  address:              'smtp.mailgun.org',
+  user_name:            ENV['MAILGUN_SMTP_LOGIN'],      # MailgunのログインID
+  password:             ENV['MAILGUN_SMTP_PASSWORD'],   # Mailgunのパスワード
+  domain:               ENV['MAILGUN_DOMAIN'],          # Mailgunのサンドボックスドメイン
+  authentication:       :plain,
+  enable_starttls_auto: true
+}
   
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -38,7 +38,7 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
-  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
+  config.public_file_server.enabled = true
 
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
