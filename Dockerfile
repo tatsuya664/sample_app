@@ -20,8 +20,9 @@ ENV RAILS_ENV=production \
     RAILS_SERVE_STATIC_FILES=true \
     RAILS_LOG_TO_STDOUT=true
 
-# アセットのプリコンパイルを実行
-RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
+# RAILS_MASTER_KEYは不要だが、secret_key_baseはビルド時に必要なのでダミーの値を渡す
+RUN SECRET_KEY_BASE=dummy bundle exec rails assets:precompile
+
 
 # ポートを開放
 EXPOSE 3000
