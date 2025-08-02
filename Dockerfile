@@ -8,7 +8,6 @@ RUN apt-get update -qq && apt-get install -y \
   build-essential \
   postgresql-client \
   curl \
-  #  画像リサイズ用のライブラリlibvips-devをここに追加します
   libvips-dev \
   && rm -rf /var/lib/apt/lists/*
 
@@ -26,8 +25,16 @@ WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
 
+# --- ↓↓↓ ここからが追記・修正箇所です ↓↓↓ ---
+# package.jsonとyarn.lockを先にコピーして、yarn installをキャッシュする
+COPY package.json yarn.lock ./
+# yarn installを実行して、sassなどのJSライブラリをインストールする
+RUN yarn install
+# --- ↑↑↑ ここまでが追記・修正箇所です ↑↑↑ ---
+
 # アプリケーションのソースコード全体をコピー
 COPY . .
 
 # RailsサーバーとCSS/JSビルダーを同時に起動する開発用コマンド
+# Renderのスタートコマンドで上書きされるため、本番環境では使われない
 CMD ["bin/dev"]
