@@ -2,8 +2,13 @@
 FROM ruby:3.2.8-slim-bullseye
 
 # 必要なライブラリをインストール
-# psych gemのビルドに必要なlibyaml-devを追加
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs yarn libyaml-dev
+# yarnを削除し、代わりにnpm経由でインストールする
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs libyaml-dev
+
+# ★★★★★ ここから追加 ★★★★★
+# npmを使ってyarnをグローバルにインストール
+RUN npm install -g yarn
+# ★★★★★ ここまで追加 ★★★★★
 
 # 作業ディレクトリを設定
 WORKDIR /rails
@@ -24,9 +29,8 @@ ENV RAILS_ENV=production \
     RAILS_SERVE_STATIC_FILES=true \
     RAILS_LOG_TO_STDOUT=true
 
-# RAILS_MASTER_KEYは不要だが、secret_key_baseはビルド時に必要なのでダミーの値を渡す
+# アセットのプリコンパイルを実行
 RUN SECRET_KEY_BASE=dummy bundle exec rails assets:precompile
-
 
 # ポートを開放
 EXPOSE 3000
