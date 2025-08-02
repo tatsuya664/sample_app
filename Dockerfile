@@ -1,8 +1,9 @@
-# ローカル環境のRubyバージョンと一致させます
+# ベースとなるRubyのイメージを指定
 FROM ruby:3.2.8-slim-bullseye
 
 # 必要なライブラリをインストール
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs yarn
+# psych gemのビルドに必要なlibyaml-devを追加
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs yarn libyaml-dev
 
 # 作業ディレクトリを設定
 WORKDIR /rails
@@ -20,7 +21,6 @@ ENV RAILS_ENV=production \
     RAILS_LOG_TO_STDOUT=true
 
 # アセットのプリコンパイルを実行
-# precompile時にmaster.keyがなくてもエラーにならないようにするためのおまじない
 RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
 # ポートを開放
