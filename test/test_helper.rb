@@ -10,7 +10,7 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
-  # ↓↓↓ 8章で追加 ↓↓↓
+  # 8章で追加
   # テストユーザーがログイン中の場合にtrueを返す
   def is_logged_in?
     !session[:user_id].nil?
@@ -20,10 +20,9 @@ class ActiveSupport::TestCase
   def log_in_as(user)
     session[:user_id] = user.id
   end
-  # ↑↑↑ 8章で追加 ↑↑↑
 end
 
-# ↓↓↓ 8章で追加 ↓↓↓
+# 8章で追加
 class ActionDispatch::IntegrationTest
   # テストユーザーとしてログインする(9章で変更)
   def log_in_as(user, password: 'password', remember_me: '1')

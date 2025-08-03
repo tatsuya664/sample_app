@@ -1,5 +1,3 @@
-# Dockerfile (最終修正版)
-
 # Rubyの公式イメージをベースにする
 FROM ruby:3.2.8
 

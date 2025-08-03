@@ -100,7 +100,7 @@ footer {
   }
 }
 
-/* 7章で追加するスタイル */
+/* 7章で追加 */
 
 /* エラーメッセージ */
 #error_explanation {
@@ -132,7 +132,7 @@ footer {
   margin-top: 45px;
 }
 
-/* ↓↓↓ 8章で追加するスタイル ↓↓↓ */
+/* 8章で追加するスタイル */
 /* ドロップダウンメニュー */
 .dropdown-toggle::after {
   display: none;
@@ -156,7 +156,6 @@ footer {
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   margin: .5rem 0;
 }
-/* ↑↑↑ 8章で追加するスタイル ↑↑↑ */
 
 //9章で追加
 .checkbox {
@@ -178,7 +177,7 @@ footer {
   margin-top: 15px;
 }
 
-//なぜかこれは反映されない(いったん諦め)
+//なぜかこれは反映されない(いったん諦め)　追記：cssを再buildしたら直った
 .users {
   list-style: none;
   padding: 0;
@@ -286,7 +285,7 @@ span.image {
   }
 }
 
-/* フォロー/アンフォローフォームの上に余白を追加 */
+/* フォロー/アンフォローフォームの上に余白を追加(個人的に見やすいから) */
 div[id^="follow_form_"] {
   margin-top: 10px;
 }

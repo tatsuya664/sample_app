@@ -16,7 +16,7 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
     end
     assert_select 'div#error_explanation'
     #バク：ユーザーが無効なマイクロポスト（空の投稿）を送信して、ホームページが再描画された時にだけ、ページネーションのリンクが消える
-    # assert_select 'a[href=?]', '/?page=2' 丸一日修正を試みたが直らず。環境の問題？
+    #assert_select 'a[href=?]', '/?page=2' 丸一日修正を試みたが直らず。環境の問題？
     # 有効な送信
     content = "This micropost really ties the room together"
     image = fixture_file_upload('test/fixtures/files/kitten.jpg', 'image/jpeg')

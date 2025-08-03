@@ -14,8 +14,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should redirect edit when not logged in" do
     get edit_user_path(@user) # ログインせずに編集ページにアクセス
-    assert_not flash.empty?   # flashメッセージが表示されるはず
-    assert_redirected_to login_url # ログインページにリダイレクトされるはず
+    assert_not flash.empty?   
+    assert_redirected_to login_url 
   end
 
   test "should redirect update when not logged in" do

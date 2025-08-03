@@ -5,7 +5,7 @@
   <%= will_paginate @users, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
 </div>
 
-<%# .users反映されない問題への最終対策としてstyleを追加 %>
+<%# .users反映されない問題への最終対策としてstyleを追加 追記：.usersは無事反映されました。%>
 <ul class="users" style="list-style: none; padding: 10px;">
   <%= render @users %>
 </ul>

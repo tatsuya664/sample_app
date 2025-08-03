@@ -17,9 +17,7 @@ class UsersEditTest < ActionDispatch::IntegrationTest
                                               password:              "foo",
                                               password_confirmation: "bar" } }
     assert_template 'users/edit'
-    # この下の行が、どうしてもパスできない
-    # なので、このチェックは諦めてコメントアウトする
-    # assert_select 'div.alert', text: /4 errors/
+    assert_select 'div.alert', text: /4 errors/
   end
 
   test "successful edit with friendly forwarding" do
