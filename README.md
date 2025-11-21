@@ -77,7 +77,7 @@
 | --- | --- | --- |
 | **Language** | Ruby | 3.2.8 |
 | **Framework** | Ruby on Rails | 7.0.8 |
-| **Database** | PostgreSQL | 14+ |
+| **Database** | PostgreSQL | 18 |
 | **Frontend** | Hotwire (Turbo, Stimulus)<br>Bootstrap<br>Sass / CSS Bundling | 5.3 |
 | **Infrastructure** | Docker / Docker Compose<br>Render (PaaS) | - |
 | **Mail Service** | Mailgun (SMTP) | - |
