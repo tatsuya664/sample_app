@@ -8,7 +8,7 @@ Rails.application.configure do
   host = ENV['APP_HOST'] # Renderの環境変数から「アプリのホスト名」を取得
   config.action_mailer.default_url_options = { host: host, protocol: 'https' }
   config.action_mailer.smtp_settings = {
-  port:                 587,
+  port:                 2525,
   address:              'smtp.mailgun.org',
   user_name:            ENV['MAILGUN_SMTP_LOGIN'],      # MailgunのログインID
   password:             ENV['MAILGUN_SMTP_PASSWORD'],   # Mailgunのパスワード
