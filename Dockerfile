@@ -8,6 +8,7 @@ RUN apt-get update -qq && apt-get install -y \
   libyaml-dev \
   curl \
   gnupg \
+  libvips \
   && curl -sL https://deb.nodesource.com/setup_lts.x | bash - \
   && apt-get install -y nodejs
 
